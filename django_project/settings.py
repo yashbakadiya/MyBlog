@@ -118,10 +118,17 @@ USE_L10N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.1/howto/static-files/
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.9/howto/static-files/
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
+
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_ROOT, 'static'),
+)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -139,3 +146,15 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'bakadiyayash@gmail.com'
 EMAIL_HOST_PASSWORD = 'pbiccepkkpowqqzf'
 # eimdrblrtghpnpiv
+
+#whitenoise
+import os
+from django.core.wsgi import get_wsgi_application
+from whitenoise.django import DjangoWhiteNoise
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bootcamp.settings")
+
+application = get_wsgi_application()
+application = DjangoWhiteNoise(application)
+
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
