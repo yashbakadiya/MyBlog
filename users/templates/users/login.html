@@ -1,0 +1,41 @@
+{% extends "users/basic.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<br>
+<div class="calculate">
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" align="center">
+      {{ message }}
+    </div>
+    {% endfor %}
+    {% endif %}
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-4" align="center">
+                <div id="ed">
+                    Log In
+                </div>
+            </legend>
+            {{ form|crispy }}
+            <!-- {{ form.as_p}} -->
+        </fieldset>
+        <div class="form-group" align="center">
+            <button class="btn btn-outline-info" type="submit">Login</button>
+        </div>
+    </form>
+    <div class="border-top pt-3" align="center">
+        <small class=text-muted"">
+            <a class="ml-2" href="#">Forgot Password?</a>
+            <br>
+            Need An Account? 
+            <a class="ml-2" href="{% url 'register' %}">SignUp Now</a>
+        </small>
+    </div>
+</div>
+{% endblock content %}
+<!-- background-color: #660e06; -->
+<!-- background-color: #43a7c5; -->
+<!-- background: #ffffff; -->
+<!-- background-image: url(C:/Users/yas/projects/django_project/blog/background.jpg); -->

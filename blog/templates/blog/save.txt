@@ -1,0 +1,56 @@
+<!-- <div class="category-content">
+    <a href="{% url 'post-category' 'food' %}">Food
+    <a href="{% url 'post-category' 'music' %}">Music
+    <a href="{% url 'post-category' 'nature' %}">Nature
+    <a href="{% url 'post-category' 'education' %}">Education
+    <a href="{% url 'post-category' 'wedding' %}">Wedding
+    <a href="{% url 'post-category' 'travel' %}">Travel
+    <a href="{% url 'post-category' 'movie' %}">Movie
+    <a href="{% url 'post-category' 'car' %}">Car
+    <a href="{% url 'post-category' 'project' %}">Project
+    <a href="{% url 'post-category' 'photography' %}">Photography
+    <a href="{% url 'post-category' 'other' %}">Other
+  </div> -->
+
+ <div class="form-container">
+
+    <div class="left">
+        <legend>
+            <div class="sign-up">Sign Up</div>
+        </legend><br>
+            <form method="POST">
+            {% csrf_token %}
+            <div class="form-class" >
+                <label class="form-label">
+                    username :
+                </label>
+                <input type="text" name="username"> 
+            </div>
+            <div class="form-class" >
+                <label class="form-label">
+                    email :
+                </label>
+                <input type="text" name="email"> 
+            </div>
+            <div class="form-class" >
+                <label class="form-label">
+                    password1 :
+                </label>
+                <input type="text" name="password1"> 
+            </div>
+            <div class="form-class" >
+                <label class="form-label">
+                    password2 :
+                </label>
+                <input type="text" name="password2"> 
+            </div>
+            <br>
+            <div>
+                <button id="sub-btn" type="submit">Sign Up</button>
+            </div>
+        </form>
+    </div>
+    <div class="right" style="background: #ffcc91;">
+        <a href="{% url 'login' %}">Log In </a>
+    </div>
+</div>
