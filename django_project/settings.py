@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -144,13 +145,5 @@ EMAIL_USE_TLS = True
 # eimdrblrtghpnpiv
 
 #whitenoise
-import os
-from django.core.wsgi import get_wsgi_application
-from whitenoise.django import DjangoWhiteNoise
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "bootcamp.settings")
-
-application = get_wsgi_application()
-application = DjangoWhiteNoise(application)
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
