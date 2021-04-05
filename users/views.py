@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login
 from django.contrib import messages
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
@@ -10,8 +12,11 @@ def register(request):
         if form.is_valid():
             form.save()
             username = form.cleaned_data.get('username')
-            messages.success(request, f'{username} account is created! You are now able to log in')
-            return redirect('login')
+            messages.success(request, f'{username} account is created! Enjoy Blogging with Heavy-Blog')
+            # user = authenticate(username=username,password=request.POST['password1'])
+            user = User.objects.get(username=username)
+            login(request,user)
+            return redirect('blog-home')
     else:
         form = UserRegisterForm()
     return   render(request,'users/register.html',{'form': form})   

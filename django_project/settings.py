@@ -22,9 +22,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY', '')
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = ['heavy-blog.herokuapp.com','localhost']
+ALLOWED_HOSTS = ['heavy-blog.herokuapp.com','localhost','127.0.0.1']
 
 
 # Application definition
@@ -126,7 +126,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'blog/static'),
 )
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(STATICFILES_DIRS[0], 'media')
 MEDIA_URL = '/media/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
