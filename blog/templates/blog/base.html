@@ -108,11 +108,12 @@
         <div class="collapse navbar-collapse" id="navbarToggle">
           <div class="navbar-nav mr-auto">
             <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
-            <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
+            <a class="nav-item nav-link" href="{% url 'explore' %}">Explore</a>
             {% if user.is_authenticated %}
+            <a class="nav-item nav-link" href="{% url 'my_blog' %}">My blog</a>
             
-            <a class="nav-item nav-link" href="{% url 'blog-contact' %}">Contact Us</a>
             {% endif %}
+            <a class="nav-item nav-link" href="{% url 'blog-contact' %}">Contact Us</a>
           </div>
           <!-- Navbar Right Side -->
           <div class="navbar-nav">

@@ -22,10 +22,30 @@ from .forms import ContactUs
 #     return render(request, 'blog/home.html', context)
 
 
-class PostListView(ListView):
+class ExplorePostListView(ListView):
     model = Post
-    template_name = 'blog/home.html'    
-    context_object_name = 'posts'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['posts'] = Post.objects.filter(privacy='Public').exclude(author=self.request.user)
+        else:
+            context['posts'] = Post.objects.filter(privacy='Public')
+        return context
+
+    template_name = 'blog/all_post.html'
+    ordering = ['-date_posted']
+    paginate_by = 6
+    
+class MyblogPostListView(ListView):
+    model = Post
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = Post.objects.filter(author=self.request.user)
+        return context
+
+    template_name = 'blog/all_post.html'    
     ordering = ['-date_posted']
     paginate_by = 6
 
@@ -78,23 +98,28 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 def blog_by_category(request,cat):    
     return render(request,'blog/home.html',{'posts':Post.objects.filter(category=cat)})   
 
-def about(request):
-    print(Post.objects.filter(privacy='Private'))
-    return render(request, 'blog/about.html', {'title': 'About'})  
+def home(request):
+    return render(request, 'blog/home.html', {'title': 'About'})  
 
 def contact(request):
     if request.method == 'POST':
-        formm = ContactUs(request.POST, instance=request.user)
+        if request.user.is_authenticated:
+            formm = ContactUs(request.POST, instance=request.user)
+        else:
+            formm = ContactUs(request.POST)
+        
         if formm.is_valid():
             formm.save()
             email = formm.cleaned_data.get('email')
-            send_mail('Confirmation Email: Our Website', 'We Have got your Mail, We will contact you soon. ' , from_email=email, recipient_list=[email])
+            send_mail('Confirmation Email: Our Website', 'We Have got your Mail, We will contact you soon. ' ,'bakadiyayash@gmail.com', recipient_list=[email])
             messages.success(request, f'Successfully Submitted!')
             return redirect('blog-home') 
 
     else:
-        formm = ContactUs(instance=request.user)
-
+        if request.user.is_authenticated:
+            formm = ContactUs(instance=request.user)
+        else:
+            formm = ContactUs()
     context = {
         'formm': formm,
     }
