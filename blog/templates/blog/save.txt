@@ -11,9 +11,8 @@
     <a href="{% url 'post-category' 'photography' %}">Photography
     <a href="{% url 'post-category' 'other' %}">Other
   </div> -->
-
+https://source.unsplash.com/random/1600x900
  <div class="form-container">
-
     <div class="left">
         <legend>
             <div class="sign-up">Sign Up</div>

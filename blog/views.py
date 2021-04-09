@@ -31,6 +31,7 @@ class ExplorePostListView(ListView):
             context['posts'] = Post.objects.filter(privacy='Public').exclude(author=self.request.user)
         else:
             context['posts'] = Post.objects.filter(privacy='Public')
+        context['title'] = 'Explore'
         return context
 
     template_name = 'blog/all_post.html'
@@ -43,21 +44,12 @@ class MyblogPostListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['posts'] = Post.objects.filter(author=self.request.user)
+        context['title'] = 'My Blogs'
         return context
 
     template_name = 'blog/all_post.html'    
     ordering = ['-date_posted']
     paginate_by = 6
-
-class UserPostListView(ListView):
-    model = Post
-    template_name = 'blog/user_posts.html'    
-    context_object_name = 'posts'
-    paginate_by = 6    
-
-    def get_queryset(self):
-        user = get_object_or_404(User, username=self.kwargs.get('username'))
-        return Post.objects.filter(author=user).order_by('-date_posted')
 
 class PostDetailView(DetailView):
     model = Post
@@ -66,6 +58,11 @@ class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
     fields = ['title', 'category', 'content', 'privacy']
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'New Post'
+        return context
+
     def form_valid(self, forme):
         forme.instance.author = self.request.user
         return super().form_valid(forme)
@@ -73,6 +70,11 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
     fields = ['title', 'category', 'content', 'privacy']
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Update Post'
+        return context
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -95,11 +97,21 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return False
 
 
-def blog_by_category(request,cat):    
-    return render(request,'blog/home.html',{'posts':Post.objects.filter(category=cat)})   
+class blog_by_category(ListView):
+    model = Post
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = Post.objects.filter(privacy='Public',category=self.kwargs['cat'])
+        context['title'] = self.kwargs['cat'] + 'Blogs'
+        return context
+
+    template_name = 'blog/all_post.html'
+    ordering = ['-date_posted']
+    paginate_by = 6
 
 def home(request):
-    return render(request, 'blog/home.html', {'title': 'About'})  
+    return render(request, 'blog/home.html',{'title':'Home'})  
 
 def contact(request):
     if request.method == 'POST':
@@ -111,7 +123,8 @@ def contact(request):
         if formm.is_valid():
             formm.save()
             email = formm.cleaned_data.get('email')
-            send_mail('Confirmation Email: Our Website', 'We Have got your Mail, We will contact you soon. ' ,'bakadiyayash@gmail.com', recipient_list=[email])
+            # send_mail('Confirmation Email: Our Website', 'We Have got your Mail, We will contact you soon.' , from_email=email, recipient_list=[email])
+            send_mail('Confirmation Email: Our Website', 'We Have got your Mail, We will contact you soon. ', 'bakadiyayash@gmail.com', recipient_list=[email])
             messages.success(request, f'Successfully Submitted!')
             return redirect('blog-home') 
 
@@ -122,6 +135,7 @@ def contact(request):
             formm = ContactUs()
     context = {
         'formm': formm,
+        'title':'Contact'
     }
 
     return render(request, 'blog/contact.html', context)        
