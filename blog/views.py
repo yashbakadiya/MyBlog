@@ -114,8 +114,8 @@ class blog_by_category(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['posts'] = Post.objects.filter(privacy='Public',category=self.kwargs['cat']).order_by('-date_posted')
-        context['title'] = self.kwargs['cat'] + 'Blogs'
+        context['posts'] = Post.objects.filter(category=self.kwargs['cat']).order_by('-date_posted')
+        context['title'] = self.kwargs['cat'] + ' Blogs'
         return context
 
 
