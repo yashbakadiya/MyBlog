@@ -24,32 +24,43 @@ from .forms import ContactUs
 
 class ExplorePostListView(ListView):
     model = Post
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        if self.request.user.is_authenticated:
-            context['posts'] = Post.objects.filter(privacy='Public').exclude(author=self.request.user)
-        else:
-            context['posts'] = Post.objects.filter(privacy='Public')
-        context['title'] = 'Explore'
-        return context
-
-    template_name = 'blog/all_post.html'
+    context_object_name = 'posts'
+    template_name = 'blog/explore.html'
     ordering = ['-date_posted']
-    paginate_by = 6
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     if self.request.user.is_authenticated:
+    #         context['posts'] = Post.objects.filter(privacy='Public').exclude(author=self.request.user).order_by('-date_posted')
+    #     else:
+    #         context['posts'] = Post.objects.filter(privacy='Public').order_by('-date_posted')
+    #         context['title'] = 'Explore'
+    #     return context
+
+
     
 class MyblogPostListView(ListView):
     model = Post
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['posts'] = Post.objects.filter(author=self.request.user)
-        context['title'] = 'My Blogs'
-        return context
-
-    template_name = 'blog/all_post.html'    
+    template_name = 'blog/myblog.html'  
+    context_object_name = 'posts'
     ordering = ['-date_posted']
-    paginate_by = 6
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['posts'] = Post.objects.filter(author=self.request.user).order_by('-date_posted')
+    #     return context
+
+
+class UserPostListView(ListView):
+    model = Post
+    template_name = 'blog/user_posts.html'    
+    context_object_name = 'posts'
+
+
+    def get_queryset(self):
+        user = get_object_or_404(User, username=self.kwargs.get('username'))
+        context = Post.objects.filter(author=user).order_by('-date_posted')
+        return context
 
 class PostDetailView(DetailView):
     model = Post
@@ -99,16 +110,14 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class blog_by_category(ListView):
     model = Post
+    template_name = 'blog/all_post.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['posts'] = Post.objects.filter(privacy='Public',category=self.kwargs['cat'])
+        context['posts'] = Post.objects.filter(privacy='Public',category=self.kwargs['cat']).order_by('-date_posted')
         context['title'] = self.kwargs['cat'] + 'Blogs'
         return context
 
-    template_name = 'blog/all_post.html'
-    ordering = ['-date_posted']
-    paginate_by = 6
 
 def home(request):
     return render(request, 'blog/home.html',{'title':'Home'})  
