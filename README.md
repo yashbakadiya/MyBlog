@@ -43,7 +43,12 @@ The project routes are configured as follows:
 First, let's create and activate a virtual environment to isolate your project dependencies:
 
 ```
-# Create a virtual environment python -m venv myEnv  # Activate it (Windows) myEnv\Scripts\activate  # Or if you're using Git Bash or WSL source myEnv/Scripts/activate
+# Create a virtual environment
+python -m venv myEnv
+# Activate it (Windows)
+myEnv\Scripts\activate
+# Or if you're using Git Bash or WSL
+source myEnv/Scripts/activate
 ```
 
 ### 2\. **Install Dependencies**
