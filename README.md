@@ -42,61 +42,54 @@ The project routes are configured as follows:
 
 First, let's create and activate a virtual environment to isolate your project dependencies:
 
-bash
-
-Copy code
-
-`# Create a virtual environment python -m venv myEnv  # Activate it (Windows) myEnv\Scripts\activate  # Or if you're using Git Bash or WSL source myEnv/Scripts/activate`
+```
+# Create a virtual environment python -m venv myEnv  # Activate it (Windows) myEnv\Scripts\activate  # Or if you're using Git Bash or WSL source myEnv/Scripts/activate
+```
 
 ### 2\. **Install Dependencies**
 
 Once your virtual environment is activated, install the required packages:
 
-bash
 
-Copy code
-
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
 
 ### 3\. **Set up Environment Variables**
 
 I notice your project uses environment variables for sensitive data. Create a `.env` file in your project root with:
 
-env
-
-Copy code
-
-`SECRET_KEY=your-secret-key-here EMAIL=your-email@gmail.com PASSWORD=your-app-password`
+```
+SECRET_KEY=your-secret-key-here
+EMAIL=your-email@gmail.com
+PASSWORD=your-app-password
+```
 
 ### 4\. **Run Database Migrations**
 
 Set up your database by running migrations:
 
-bash
-
-Copy code
-
-`python manage.py makemigrations python manage.py migrate`
+```
+python manage.py makemigrations
+python manage.py migrate
+```
 
 ### 5\. **Create a Superuser** (Optional)
 
 Create an admin user to access the Django admin panel:
 
-bash
 
-Copy code
-
-`python manage.py createsuperuser`
+```
+python manage.py createsuperuser
+```
 
 ### 6\. **Start the Development Server**
 
 Run your Django development server:
 
-bash
-
-Copy code
-
-`python manage.py runserver`
+```
+python manage.py runserver
+```
 
 Your application should now be running at `http://127.0.0.1:8000/` or `http://localhost:8000/`
 
