@@ -36,12 +36,6 @@ The project routes are configured as follows:
 
 ---
 
-I'll help you get started with your Django project! Let me first examine the project structure and then guide you through the setup process.
-
-- - -
-
-Perfect! I can see this is a Django blog project with user authentication. Let me help you get started with it. Here's a step-by-step guide to get your Django project running:
-
 ## Getting Started with Your Django Project
 
 ### 1\. **Set up a Virtual Environment** (Recommended)
