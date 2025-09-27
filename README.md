@@ -68,7 +68,7 @@ Ensure you have the following installed:
 
 4. **Apply migrations**:
     ```bash
-    python manage.py migrate
+    python manage.py migrate and  python manage.py makemigrations users and modules (if got particular module error)
     ```
 
 5. **Run the development server**:
