@@ -143,3 +143,7 @@ Your application should now be running at `http://127.0.0.1:8000/` or `http://lo
 3.  Create some blog posts through the admin or the web interface
     
 4.  Test the user registration and login functionality
+
+
+---
+https://simpleisbetterthancomplex.com/
